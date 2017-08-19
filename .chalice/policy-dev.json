@@ -3,13 +3,14 @@
   "Statement": [
     {
       "Action": [
-        "ec2:DescribeInstances"
+        "ec2:DescribeInstances",
+        "ec2:DescribeSecurityGroups"
       ],
       "Resource": [
         "*"
       ],
       "Effect": "Allow",
-      "Sid": "03ce63aae08642c9a2283b6daaaee5db"
+      "Sid": "5cbac3861c4b4a32a18ac1290aefa162"
     },
     {
       "Action": [
