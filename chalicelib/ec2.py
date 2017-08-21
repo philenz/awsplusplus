@@ -14,17 +14,6 @@ class InstanceList():
 
             reservations = client.describe_instances()
 
-            # Add filters like this...
-            '''
-            Filters=[
-                    {
-                        'Name': 'tag:ShutdownAfterHours',
-                        'Values': ['True']
-                    }
-                ]   
-            )
-            '''
-
             instances = []
             for reservation in reservations['Reservations']:
                 for instance in reservation['Instances']:
@@ -52,4 +41,26 @@ class SecurityGroupList():
 
             return SecurityGroups(
                 security_groups=security_groups
+            )
+
+# Return security group details
+
+SecurityGroup = namedtuple(
+    'SecurityGroup', ['id', 'name', 'vpc', 'description'])
+
+class SecurityGroupId():
+        def get_security_group(self, id):
+
+            client = boto3.client('ec2', region_name='ap-southeast-2')
+            sgs = client.describe_security_groups(
+                GroupIds=[id]
+            )
+
+            sg = sgs['SecurityGroups'][0]
+
+            return SecurityGroup(
+                id=id,
+                name=sg['GroupName'],
+                vpc=sg['VpcId'],
+                description=sg['Description']
             )

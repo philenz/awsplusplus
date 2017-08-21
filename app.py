@@ -42,3 +42,16 @@ def list_security_groups():
     return {
         'security_groups': sgs.security_groups
     }
+
+@app.route('/securitygroup/{security_group_id}', cors=True)
+def get_security_group(security_group_id):
+    sgId = chalicelib.ec2.SecurityGroupId()
+    sg = sgId.get_security_group(security_group_id)
+    if not sg:
+        raise chalice.NotFoundError('Security Group does not exist')
+    return {
+        'id': sg.id,
+        'name': sg.name,
+        'vpc': sg.vpc,
+        'description': sg.description
+    }
