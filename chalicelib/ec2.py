@@ -23,7 +23,7 @@ class InstanceList():
                 instances=instances
             )
 
-# Return a list of security group ids
+# Return a list of security groups
 
 SecurityGroups = namedtuple(
     'SecurityGroups', ['security_groups'])
@@ -37,13 +37,19 @@ class SecurityGroupList():
 
             security_groups = []
             for sg in sgs['SecurityGroups']:
-                security_groups.append(sg['GroupId'])
+
+                security_group = { 'id': sg['GroupId'] }
+                security_group['name'] = sg['GroupName']
+                security_group['vpc'] = sg['VpcId']
+                security_group['description'] = sg['Description']
+
+                security_groups.append(security_group)
 
             return SecurityGroups(
                 security_groups=security_groups
             )
 
-# Return security group details
+# Return a security group
 
 SecurityGroup = namedtuple(
     'SecurityGroup', ['id', 'name', 'vpc', 'description'])
