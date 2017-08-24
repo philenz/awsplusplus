@@ -90,3 +90,14 @@ def get_access_keys(user_name):
         'keys': keys.keys
     }
 
+@app.route('/userskeys', cors=True)
+def list_users_keys():
+    uList = chalicelib.iam.UserKeyList()
+    users = uList.get_users_plus_keys()
+
+    for user in users.users_keys:
+        app.log.debug(user)
+
+    return {
+        'userskeys': users.users_keys
+    }
