@@ -10,7 +10,17 @@
         "*"
       ],
       "Effect": "Allow",
-      "Sid": "5cbac3861c4b4a32a18ac1290aefa162"
+      "Sid": "9cfdd355508a4b43ac565126ac26702e"
+    },
+    {
+      "Action": [
+        "iam:ListUsers"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Effect": "Allow",
+      "Sid": "73264cf63f07435083b16c0189f0eb45"
     },
     {
       "Action": [

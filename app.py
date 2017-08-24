@@ -1,19 +1,23 @@
 import chalice
 import chalicelib.ec2
+import chalicelib.iam
 import logging
-
-app = chalice.Chalice(app_name='awsplusplus')
-app.debug = True
-app.log.setLevel(logging.DEBUG)
 
 # Need to raise bug...
 # Policy generator doesn't scan code in chalicelib
 # so need to add these here...
-#import boto3
-#sgs = boto3.client('ec2', region_name='ap-southeast-2').describe_security_groups()
-#reservations = boto3.client('ec2', region_name='ap-southeast-2').describe_instances()
+'''
+import boto3
+sgs = boto3.client('ec2', region_name='ap-southeast-2').describe_security_groups()
+reservations = boto3.client('ec2', region_name='ap-southeast-2').describe_instances()
+users = boto3.client('iam').list_users()
+'''
 # then run deploy
 # then remove that code and run deploy --no-autogen-policy from then on
+
+app = chalice.Chalice(app_name='awsplusplus')
+app.debug = True
+app.log.setLevel(logging.DEBUG)
 
 @app.route('/', cors=True)
 def index():
@@ -54,4 +58,16 @@ def get_security_group(security_group_id):
         'name': sg.name,
         'vpc': sg.vpc,
         'description': sg.description
+    }
+
+@app.route('/users', cors=True)
+def list_users():
+    uList = chalicelib.iam.UserList()
+    users = uList.get_users()
+
+    for user in users.users:
+        app.log.debug(user)
+
+    return {
+        'users': users.users
     }
