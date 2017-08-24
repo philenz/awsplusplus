@@ -10,17 +10,18 @@
         "*"
       ],
       "Effect": "Allow",
-      "Sid": "9cfdd355508a4b43ac565126ac26702e"
+      "Sid": "137338f17ed849ac880909f427b4fd52"
     },
     {
       "Action": [
+        "iam:ListAccessKeys",
         "iam:ListUsers"
       ],
       "Resource": [
         "*"
       ],
       "Effect": "Allow",
-      "Sid": "73264cf63f07435083b16c0189f0eb45"
+      "Sid": "34166d597d8f4e7788afcf031487f585"
     },
     {
       "Action": [

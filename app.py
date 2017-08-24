@@ -11,13 +11,16 @@ import boto3
 sgs = boto3.client('ec2', region_name='ap-southeast-2').describe_security_groups()
 reservations = boto3.client('ec2', region_name='ap-southeast-2').describe_instances()
 users = boto3.client('iam').list_users()
+keys = boto3.client('iam').list_access_keys(UserName='phil.evans@gallagher.com')['AccessKeyMetadata']
 '''
 # then run deploy
 # then remove that code and run deploy --no-autogen-policy from then on
 
 app = chalice.Chalice(app_name='awsplusplus')
 app.debug = True
-app.log.setLevel(logging.DEBUG)
+app.log.setLevel(logging.INFO)
+
+
 
 @app.route('/', cors=True)
 def index():
@@ -71,3 +74,19 @@ def list_users():
     return {
         'users': users.users
     }
+
+@app.route('/accesskeys/{user_name}', cors=True)
+def get_access_keys(user_name):
+
+    app.log.info("get_access_keys for " + user_name)
+
+    keyList = chalicelib.iam.AccessKeys()
+    keys = keyList.get_access_keys(user_name)
+
+    for key in keys.keys:
+        app.log.info(key)
+
+    return {
+        'keys': keys.keys
+    }
+
