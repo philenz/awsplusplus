@@ -24,12 +24,13 @@ app.log.setLevel(logging.INFO)
 cognito_authorizer = chalice.CognitoUserPoolAuthorizer(
     'CognitoAuthorizer', provider_arns=[chalicelib.constants.POOL_ARN])
 
+iam_authorizer = chalice.IAMAuthorizer()
 
 @app.route('/', cors=True)
 def index():
     return { 'AWS++': 'https://github.com/philenz/awsplusplus' }
 
-@app.route('/instances', cors=True)
+@app.route('/instances', cors=True, authorizer=iam_authorizer)
 def list_instances():
     instanceList = chalicelib.ec2.InstanceList()
     instances = instanceList.get_instances()
@@ -66,7 +67,7 @@ def get_security_group(security_group_id):
         'description': sg.description
     }
 
-@app.route('/users', cors=True)
+@app.route('/users', cors=True, authorizer=iam_authorizer)
 def list_users():
     uList = chalicelib.iam.UserList()
     users = uList.get_users()
