@@ -20,7 +20,7 @@ app = chalice.Chalice(app_name='awsplusplus')
 app.debug = True
 app.log.setLevel(logging.INFO)
 
-
+iam_authorizer = chalice.IAMAuthorizer();
 
 @app.route('/', cors=True)
 def index():
@@ -38,7 +38,7 @@ def list_instances():
         'instances': instances.instances
     }
 
-@app.route('/securitygroups', cors=True)
+@app.route('/securitygroups', cors=True, authorizer=iam_authorizer)
 def list_security_groups():
     sgList = chalicelib.ec2.SecurityGroupList()
     sgs = sgList.get_security_groups()
@@ -90,7 +90,7 @@ def get_access_keys(user_name):
         'keys': keys.keys
     }
 
-@app.route('/userskeys', cors=True)
+@app.route('/userskeys', cors=True, authorizer=iam_authorizer)
 def list_users_keys():
     uList = chalicelib.iam.UserKeyList()
     users = uList.get_users_plus_keys()
