@@ -20,7 +20,7 @@ app = chalice.Chalice(app_name='awsplusplus')
 app.debug = True
 app.log.setLevel(logging.INFO)
 
-iam_authorizer = chalice.IAMAuthorizer();
+iam_authorizer = chalice.IAMAuthorizer()
 
 @app.route('/', cors=True)
 def index():
